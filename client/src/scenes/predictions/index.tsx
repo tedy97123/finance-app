@@ -25,10 +25,10 @@ const Predictions = () => {
     if (!kpiData) return [];
     const monthData = kpiData[0].monthlyData;
 
-    const formatted: Array<DataPoint> = monthData.map(
-      ({ revenue }, i: number) => {
-        return [i, revenue];
-      }
+   const formatted: Array<DataPoint> = monthData.map(
+    ({ revenue }, i: number) => {
+      return [i, parseFloat(revenue as any)];
+    }
     );
     const regressionLine = regression.linear(formatted);
 

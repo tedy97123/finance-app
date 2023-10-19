@@ -1,76 +1,90 @@
 import mongoose from "mongoose";
-import { loadType } from "mongoose-currency";
+import currency from "currency.js";
 
 const Schema = mongoose.Schema;
-loadType(mongoose);
 
+// Define custom Currency type
+class Currency extends mongoose.SchemaType {
+  constructor(path, options) {
+    super(path, options, 'Currency');
+  }
+
+  // Casting logic
+  cast(val) {
+    if (typeof val === 'number') {
+      return val;  // store in cents
+    }
+    if (typeof val === 'string') {
+      // Convert USD string to number in cents
+      return Math.round(currency(val, { fromCents: false }).value * 100);
+    }
+    throw new Error('Currency: invalid value');
+  }
+}
+
+// Registering our custom type in Mongoose
+mongoose.Schema.Types.Currency = Currency;
+
+// Define daySchema
 const daySchema = new Schema(
   {
     date: String,
     revenue: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
     expenses: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
   },
   { toJSON: { getters: true } }
 );
 
+// Define monthSchema
 const monthSchema = new Schema(
   {
     month: String,
     revenue: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
     expenses: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
     operationalExpenses: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
     nonOperationalExpenses: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
   },
   { toJSON: { getters: true } }
 );
 
+// Define KPISchema
 const KPISchema = new Schema(
   {
     totalProfit: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
     totalRevenue: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
     totalExpenses: {
-      type: mongoose.Types.Currency,
-      currency: "USD",
-      get: (v) => v / 100,
+      type: Currency,
+      get: (v) => (v / 100).toFixed(2),
     },
     expensesByCategory: {
       type: Map,
       of: {
-        type: mongoose.Types.Currency,
-        currency: "USD",
-        get: (v) => v / 100,
+        type: Currency,
+        get: (v) => (v / 100).toFixed(2),
       },
     },
     monthlyData: [monthSchema],
@@ -79,6 +93,6 @@ const KPISchema = new Schema(
   { timestamps: true, toJSON: { getters: true } }
 );
 
+// Create and export KPI model
 const KPI = mongoose.model("KPI", KPISchema);
-
 export default KPI;
