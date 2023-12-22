@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
+import { MongoClient } from "mongodb";
 import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
@@ -18,8 +18,6 @@ const app = express();
 
 // Use Helmet for general security headers
 app.use(helmet());
-// Specifically, remove the crossOriginResourcePolicy from Helmet for now as it might conflict with CORS
- //app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 // Enable CORS for local development
 app.use(cors());
@@ -36,25 +34,33 @@ app.use("/kpi", kpiRoutes);
 app.use("/product", productRoutes);
 app.use("/transaction", transactionRoutes);
 
-/* MONGOOSE SETUP */
+/* MONGODB SETUP */
 const PORT = process.env.PORT || 8000;
+const MONGO_URL = "mongodb+srv://tedyyohanes97:Peeman200@cluster1.vs1vunz.mongodb.net/?retryWrites=true&w=majority";
 
-mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(async () => {
-    console.log("connected to DB");
-    app.listen(PORT, '0.0.0.0' , () => console.log(`Server Port: ${PORT}`));
+const client = new MongoClient(MONGO_URL);
+
+async function run() {
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB");
+
+    app.listen(PORT, '0.0.0.0', () => console.log(`Server Port: ${PORT}`));
 
     // Commented out the seeding logic for safety, consider moving to a separate script
-    // await mongoose.connection.db.dropDatabase();
-    // KPI.insertMany(kpis);
-    // Product.insertMany(products);
-    // Transaction.insertMany(transactions);
-  })
-  .catch((error) => console.log(`${error} did not connect`));
+    // await client.db("cluster1").dropDatabase();
+    // await client.db("cluster1").collection("kpis").insertMany(kpis);
+    // await client.db("cluster1").collection("products").insertMany(products);
+    // await client.db("cluster1").collection("transactions").insertMany(transactions);
+
+  } finally {
+    // Ensure that the client will close when you finish/error
+    // Do not close the connection here if you want the app to continue running
+    // You may want to handle this differently in a production environment
+  }
+}
+
+run().catch(console.dir);
 
 /* ERROR HANDLING MIDDLEWARE */
 app.use((err, req, res, next) => {
