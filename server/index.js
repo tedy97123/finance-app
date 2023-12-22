@@ -38,9 +38,10 @@ app.use("/transaction", transactionRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 8000;
+const MONGO_URL = "mongodb+srv://tedyyohanes97:Peeman200@cluster1.vs1vunz.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
-  .connect(process.env.MONGO_URL, {
+  .connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -50,9 +51,9 @@ mongoose
 
     // Commented out the seeding logic for safety, consider moving to a separate script
     // await mongoose.connection.db.dropDatabase();
-    // KPI.insertMany(kpis);
-    // Product.insertMany(products);
-    // Transaction.insertMany(transactions);
+     //KPI.insertMany(kpis);
+     //Product.insertMany(products);
+     //Transaction.insertMany(transactions);
   })
   .catch((error) => console.log(`${error} did not connect`));
 
