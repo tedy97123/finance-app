@@ -5,10 +5,12 @@ const router = express.Router();
 
 router.get("/kpis", async (req, res) => {
   try {
-    const kpis = await KPI.find();
+    const kpis = await KPI.find()
+    console.log(kpis)
     res.status(200).json(kpis);
   } catch (error) {
     res.status(404).json({ message: error.message });
+
   }
 });
 
