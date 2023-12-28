@@ -6,19 +6,33 @@ import {
   useGetProductsQuery,
   useGetTransactionsQuery,
 } from "@/state/api";
+import { Add, PlusOne } from "@mui/icons-material";
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Cell, Pie, PieChart } from "recharts";
+import ModernModal from "../modals/productModal";
 
 const Row3 = () => {
   const { palette } = useTheme();
   const pieColors = [palette.primary[800], palette.primary[500]];
-
+  const [open,setOpen] = useState(false);
+  
   const { data: kpiData } = useGetKpisQuery();
   const { data: productData } = useGetProductsQuery();
   const { data: transactionData } = useGetTransactionsQuery();
+  const [selected, setSelected] = useState("addProducts");
 
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const handleOpenModal = (): void => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = (): void => {
+    setModalOpen(false);
+  };
+  
   const pieChartData = useMemo(() => {
     if (kpiData) {
       const totalExpenses = kpiData[0].totalExpenses;
@@ -91,6 +105,12 @@ const Row3 = () => {
         <BoxHeader
           title="List of Products"
           sideText={`${productData?.length} products`}
+           addIcon={
+          <Add  
+            style={{
+            width : "18px",
+            marginLeft:"10px"
+          }}/>}
         />
         <Box
           mt="0.5rem"

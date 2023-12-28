@@ -27,6 +27,7 @@ const Navbar = (props: Props) => {
             onClick={() => setSelected("dashboard")}
             style={{
               color: selected === "dashboard" ? "inherit" : palette.grey[700],
+              transform :"inherit",
               textDecoration: "inherit",
             }}
           >
