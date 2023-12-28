@@ -34,6 +34,14 @@ export interface GetKpisResponse {
   updatedAt: string;
 }
 
+export interface AddProducts {
+  id: BigInt;
+  name: string
+  price: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface GetProductsResponse {
   id: string;
   _id: string;
@@ -45,6 +53,7 @@ export interface GetProductsResponse {
   updatedAt: string;
 }
 
+
 export interface GetTransactionsResponse {
   id: string;
   _id: string;
@@ -55,3 +64,4 @@ export interface GetTransactionsResponse {
   createdAt: string;
   updatedAt: string;
 }
+
