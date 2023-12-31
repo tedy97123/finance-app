@@ -11,8 +11,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import React, { useMemo, useState } from "react";
 import { Cell, Pie, PieChart } from "recharts";
-import ModernModal from "../modals/productModal";
-
+ 
 const Row3 = () => {
   const { palette } = useTheme();
   const pieColors = [palette.primary[800], palette.primary[500]];
@@ -108,7 +107,6 @@ const Row3 = () => {
            addIcon={
           <Add  
             style={{
-            width : "18px",
             marginLeft:"10px"
           }}/>}
         />

@@ -38,9 +38,11 @@ export interface AddProducts {
   id: BigInt;
   name: string
   price: number;
+  currencyType:symbol;
   createdAt: string;
   updatedAt: string;
 }
+ 
 
 export interface GetProductsResponse {
   id: string;
@@ -52,6 +54,18 @@ export interface GetProductsResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface UpdateProductsResponse {
+  id: string;
+  _id: string;
+  __v: number;
+  price: number;
+  expense: number;
+  transactions: Array<string>;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 
 export interface GetTransactionsResponse {
