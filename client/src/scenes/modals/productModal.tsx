@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, useTheme } from '@mui/material';
  
  
 interface ModernModalProps {
@@ -26,68 +26,10 @@ const currencies = [
     },
 ];
 
+
+//TODO add product flow to frontend
 const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
-    // const dispatch = useDispatch();
-    // const 
-    // { 
-    //     productName,
-    //     price,
-    //     currencyType,
-    //     expense 
-    // } = useSelector((state: RootState) => state.product);
-  
-    // const handleSubmit = async () => {
-    //   try {
-    //     const response = await fetch('your_backend_endpoint', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         id: BigInt(Date.now()),
-    //         name: productName,
-    //         price: parseFloat(price),
-    //         currencyType: currencyType as unknown as symbol,
-    //         createdAt: new Date().toISOString(),
-    //         updatedAt: new Date().toISOString(),
-    //       }),
-    //     });
-  
-    //     if (response.ok) {
-    //       dispatch(setProductName('')); // Reset the state after successful submission
-    //       dispatch(setPrice(''));
-    //       dispatch(setCurrencyType(''));
-    //       dispatch(setExpense(''));
-    //       onClose(); // Close the modal
-    //     } else {
-    //       console.error('Failed to submit form');
-    //     }
-    //   } catch (error) {
-    //     console.error('Error during form submission', error);
-    //   }
-    // };
-  
-    // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //   const { name, value } = e.target;
-    //   switch (name) {
-    //     case 'productName':
-    //       dispatch(setProductName(value));
-    //       break;
-    //     case 'price':
-    //       dispatch(setPrice(value));
-    //       break;
-    //     case 'currencyType':
-    //       dispatch(setCurrencyType(value));
-    //       break;
-    //     case 'expense':
-    //       dispatch(setExpense(value));
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    //   console.log(name,value)  
-    //   };
-  
+   const { palette } = useTheme();
     return (
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>Add/Update Product Table</DialogTitle>
@@ -102,9 +44,7 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             label="Product Name"
             type="text"
             fullWidth
-            variant="outlined"
-            // value={productName}
-            // onChange={handleInputChange}
+            variant="outlined"                   
           />
           <TextField
             autoFocus
@@ -113,8 +53,6 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             label="Price"
             type="number"
             variant="outlined"
-            // value={price}
-            // onChange={handleInputChange}
           />
           <TextField
             id="filled-select-currency-native"
@@ -127,8 +65,6 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             }}
             helperText="Please select your currency"
             variant="filled"
-            // value={currencyType}
-            // onChange={handleInputChange}
           >
             {currencies.map((option) => (
               <option key={option.value} value={option.value}>
@@ -143,10 +79,15 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             label="Expense"
             type="number"
             fullWidth
-            variant="outlined"
-        
+            variant="outlined" 
           />
           <DialogActions>
+           <Button  
+           sx={{
+            color: palette.grey[900],
+            backgroundColor: palette.grey[700],
+            boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
+          }}>Submit</Button>
             <Button onClick={onClose}>Cancel</Button>
           </DialogActions>
         </DialogContent>
