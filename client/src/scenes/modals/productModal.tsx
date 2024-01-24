@@ -38,6 +38,7 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             To update or add a new product, fill out this form.
           </DialogContentText>
           <TextField
+            required
             autoFocus
             margin="dense"
             id="productName"
@@ -84,9 +85,8 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
           <DialogActions>
            <Button  
            sx={{
-            color: palette.grey[900],
-            backgroundColor: palette.grey[700],
-            boxShadow: "0.1rem 0.1rem 0.1rem 0.1rem rgba(0,0,0,.4)",
+            color: palette.grey[500],
+            backgroundColor: palette.tertiary[500],
           }}>Submit</Button>
             <Button onClick={onClose}>Cancel</Button>
           </DialogActions>

@@ -34,13 +34,39 @@ export interface GetKpisResponse {
   updatedAt: string;
 }
 
-export interface AddProducts {
-  id: BigInt;
-  name: string
-  price: number;
-  currencyType:symbol;
-  createdAt: string;
-  updatedAt: string;
+export interface Products {
+cellMode: string;
+colDef: Object;
+field: string;
+formattedValue: string;
+hasFocus: boolean
+isEditable: boolean
+row: Object;
+rowNode: Object;
+tabIndex: bigint;
+value: string;
+__v: 0,
+_id:string,
+createdAt:string, 
+expense: "", 
+id: string,
+price: "",
+transactions: [], 
+updatedAt: ""
+}
+
+export interface ProductsTransactions {
+cellMode: string;
+colDef: Object;
+field: string;
+formattedValue: string;
+hasFocus: boolean
+id: string
+isEditable: boolean
+row: Object;
+rowNode: Object;
+tabIndex: bigint;
+value: string;
 }
  
 
