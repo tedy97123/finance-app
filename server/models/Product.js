@@ -41,6 +41,7 @@ const ProductSchema = new Schema(
         ref: "Transaction",
       },
     ],
+        Description:{type:Schema.Types.ObjectId,ref:'Description'}
   },
   { timestamps: true, toJSON: { getters: true } }
 );
