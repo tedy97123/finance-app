@@ -13,11 +13,9 @@ import Product from "./models/Product.js";
 import Transaction from "./models/Transaction.js";
 import { kpis, products, transactions } from "./data/data.js";
 
-
 /* CONFIGURATIONS */
 dotenv.config();
 const app = express();
-
 const PORT = 8023;
 
 // Use Helmet for general security headers
@@ -43,6 +41,19 @@ app.use("/description", descriptionRoutes);
 
 /* MONGOOSE SETUP */ 
 const MONGO_URL = "mongodb+srv://tedyyohanes97:Peeman200@cluster1.vs1vunz.mongodb.net/?retryWrites=true&w=majority";
+
+app.get('/geturl', function (req, res) {     
+  const protocol = req.protocol; 
+  const host = req.hostname; 
+  const url = req.originalUrl; 
+  const port = process.env.PORT || PORT; 
+
+  const fullUrl = `${protocol}://${host}:${port}${url}` 
+    
+  const responseString = `Full URL is: ${fullUrl}`;    
+  console.log(responseString)                    
+  res.send(responseString);   
+})
 
 mongoose
   .connect(MONGO_URL, {
