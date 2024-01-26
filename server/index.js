@@ -51,7 +51,7 @@ mongoose
     app.listen(PORT, '0.0.0.0' , () => console.log(`Server Port: ${PORT}`));
 
     // Commented out the seeding logic for safety, consider moving to a separate script
-     await mongoose.connection.db.dropDatabase();
+    // await mongoose.connection.db.dropDatabase();
     //  KPI.insertMany(kpis);
     //  Product.insertMany(products);
     //  Transaction.insertMany(transactions);
