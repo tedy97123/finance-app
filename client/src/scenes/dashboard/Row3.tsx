@@ -6,32 +6,28 @@ import {
   useGetProductsQuery,
   useGetTransactionsQuery,
 } from "@/state/api";
-import { Add, PlusOne } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import { Box, Typography, useTheme } from "@mui/material";
-import { DataGrid, GridCellParams } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams, GridEventListener } from "@mui/x-data-grid";
 import React, { useMemo, useState } from "react";
 import { Cell, Pie, PieChart } from "recharts";
+import { connect, useDispatch } from "react-redux";
+import { editProduct } from "@/state/redux/actions";
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Products } from "@/state/types";
  
-const Row3 = () => {
+const Row3 = ( ) => {
   const { palette } = useTheme();
   const pieColors = [palette.primary[800], palette.primary[500]];
-  const [open,setOpen] = useState(false);
-  
   const { data: kpiData } = useGetKpisQuery();
   const { data: productData } = useGetProductsQuery();
   const { data: transactionData } = useGetTransactionsQuery();
-  const [selected, setSelected] = useState("addProducts");
+  const [selected, setSelected] = useState(false);
+  const [FinalClickInfo,setFinalClickInfo] = useState();
+  const dispatch = useDispatch();
+  const [clickedRows, setClickedRows] = useState<any[]>([]);
 
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-
-  const handleOpenModal = (): void => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = (): void => {
-    setModalOpen(false);
-  };
-  
   const pieChartData = useMemo(() => {
     if (kpiData) {
       const totalExpenses = kpiData[0].totalExpenses;
@@ -97,6 +93,23 @@ const Row3 = () => {
         (params.value as Array<string>).length,
     },
   ];
+ 
+  
+const handleOnCellClick: GridEventListener<'rowClick'> = (
+  params, // GridCallbackDetails
+) => { 
+  setSelected(true);
+  console.log(selected)
+  setFinalClickInfo(params.row); 
+  const info = JSON.stringify(params.row);
+  const n_Info = JSON.parse(info);
+  setClickedRows((prevRows) => [...prevRows, n_Info]);
+    const action = {
+    type: 'VIEW_PRODUCT',
+    payload:clickedRows, 
+  };
+  dispatch(action);
+};
 
   return (
     <>
@@ -104,11 +117,9 @@ const Row3 = () => {
         <BoxHeader
           title="List of Products"
           sideText={`${productData?.length} products`}
-           addIcon={
-          <Add  
-            style={{
-            marginLeft:"10px"
-          }}/>}
+          addIcon={ <Add />}
+          editIcon={<EditIcon/>}
+          viewIcon={<VisibilityIcon/>}
         />
         <Box
           mt="0.5rem"
@@ -136,7 +147,10 @@ const Row3 = () => {
             hideFooter={true}
             rows={productData || []}
             columns={productColumns}
-          />
+            onCellClick={handleOnCellClick}
+            checkboxSelection 
+            disableColumnSelector
+            />
         </Box>
       </DashboardBox>
       <DashboardBox gridArea="h">
@@ -170,6 +184,8 @@ const Row3 = () => {
             hideFooter={true}
             rows={transactionData || []}
             columns={transactionColumns}
+            onCellClick={handleOnCellClick}
+            checkboxSelection 
           />
         </Box>
       </DashboardBox>
@@ -226,4 +242,9 @@ const Row3 = () => {
   );
 };
 
-export default Row3;
+const mapDispatchToProps =  {
+  dispatchAddProduct: editProduct,
+};
+
+
+export default connect(null, mapDispatchToProps)(Row3);

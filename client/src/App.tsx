@@ -7,16 +7,13 @@ import { themeSettings } from "./theme";
 import Navbar from "@/scenes/navbar";
 import Dashboard from "@/scenes/dashboard";
 import Predictions from "@/scenes/predictions";
-import { Provider } from "react-redux";
-import store from "./state/redux/store";
+ 
 
 function App() {
   const theme = useMemo(() => createTheme(themeSettings), []);
   return (
     <div className="app">
-      
       <BrowserRouter>
-      <Provider store={store}> 
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box width="100%" height="100%" padding="1rem 2rem 4rem 2rem">
@@ -27,9 +24,7 @@ function App() {
             </Routes>
           </Box>
         </ThemeProvider>
-        </Provider>
       </BrowserRouter>
-      
     </div>
   );
 }

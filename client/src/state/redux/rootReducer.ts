@@ -1,15 +1,10 @@
 // rootReducer.ts
 import { combineReducers } from 'redux';
-import productReducer, { ProductState } from './reducers'; // Import ProductState
+import productReducer from './reducers';
 
-export interface RootState {
-  product: ProductState;
-  // ... other reducers
-}
-
-const rootReducer = combineReducers({
-  product: productReducer,
-  // ... other reducers
+const rootReducer  = combineReducers({
+  products: productReducer,
+  serializableCheck:false
 });
 
 export default rootReducer;

@@ -1,39 +1,23 @@
-// productReducer.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// reducers.ts
+import { EDIT_PRODUCT, VIEW_PRODUCT } from './actions';
 
-export interface ProductState {
-  productName: string;
-  price: string;
-  currencyType: string;
-  expense: string;
-}
-
-const initialState: ProductState = {
-  productName: '',
-  price: '',
-  currencyType: 'USD',
-  expense: '',
+const initialState = {
+  products: [], // Initialize products as an empty array or with any default values you need.
 };
 
-const productSlice = createSlice({
-  name: 'products',
-  initialState,
-  reducers: {
-    setProductName: (state, action: PayloadAction<string>) => {
-      state.productName = action.payload;
-    },
-    setPrice: (state, action: PayloadAction<string>) => {
-      state.price = action.payload;
-    },
-    setCurrencyType: (state, action: PayloadAction<string>) => {
-      state.currencyType = action.payload;
-    },
-    setExpense: (state, action: PayloadAction<string>) => {
-      state.expense = action.payload;
-    },
-    resetModal: (_state) => initialState,
-  },
-});
+const productReducer = (state = initialState, action: any) => {
+  switch (action.type) {
+    case EDIT_PRODUCT:
+      return {
+        products: [...state.products, action.payload],
+      };
+    case VIEW_PRODUCT:
+      return {
+        products: action.payload, // Consider if you want to merge or replace existing products.
+      };
+    default:
+      return state;
+  }
+};
 
-export const { setProductName, setPrice, setCurrencyType, setExpense, resetModal } = productSlice.actions;
-export default productSlice.reducer;
+export default productReducer;

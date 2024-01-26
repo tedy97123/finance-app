@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
-import { setProductName, setPrice, setCurrencyType, setExpense } from '@/state/redux/reducers';
-import rootReducer from "../../state/redux/rootReducer";
-import { useSelector,useDispatch } from 'react-redux';
-import { Store } from '@reduxjs/toolkit';
-import { RootState } from '../../state/redux/rootReducer';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
+ 
  
 interface ModernModalProps {
   open: boolean;
@@ -30,68 +27,11 @@ const currencies = [
     },
 ];
 
+
+//TODO add product flow to frontend
 const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
-    const dispatch = useDispatch();
-    const 
-    { 
-        productName,
-        price,
-        currencyType,
-        expense 
-    } = useSelector((state: RootState) => state.product);
-  
-    const handleSubmit = async () => {
-      try {
-        const response = await fetch('your_backend_endpoint', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: BigInt(Date.now()),
-            name: productName,
-            price: parseFloat(price),
-            currencyType: currencyType as unknown as symbol,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          }),
-        });
-  
-        if (response.ok) {
-          dispatch(setProductName('')); // Reset the state after successful submission
-          dispatch(setPrice(''));
-          dispatch(setCurrencyType(''));
-          dispatch(setExpense(''));
-          onClose(); // Close the modal
-        } else {
-          console.error('Failed to submit form');
-        }
-      } catch (error) {
-        console.error('Error during form submission', error);
-      }
-    };
-  
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      switch (name) {
-        case 'productName':
-          dispatch(setProductName(value));
-          break;
-        case 'price':
-          dispatch(setPrice(value));
-          break;
-        case 'currencyType':
-          dispatch(setCurrencyType(value));
-          break;
-        case 'expense':
-          dispatch(setExpense(value));
-          break;
-        default:
-          break;
-      }
-      console.log(name,value)  
-      };
-  
+    const products = useSelector((state: any) => state.rootReducer.products);
+   const { palette } = useTheme();
     return (
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>Add/Update Product Table</DialogTitle>
@@ -100,15 +40,14 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             To update or add a new product, fill out this form.
           </DialogContentText>
           <TextField
+            required
             autoFocus
             margin="dense"
             id="productName"
             label="Product Name"
             type="text"
             fullWidth
-            variant="outlined"
-            value={productName}
-            onChange={handleInputChange}
+            variant="outlined"                   
           />
           <TextField
             autoFocus
@@ -117,8 +56,6 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             label="Price"
             type="number"
             variant="outlined"
-            value={price}
-            onChange={handleInputChange}
           />
           <TextField
             id="filled-select-currency-native"
@@ -131,8 +68,6 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             }}
             helperText="Please select your currency"
             variant="filled"
-            value={currencyType}
-            onChange={handleInputChange}
           >
             {currencies.map((option) => (
               <option key={option.value} value={option.value}>
@@ -147,13 +82,15 @@ const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
             label="Expense"
             type="number"
             fullWidth
-            variant="outlined"
-            value={expense}
-            onChange={handleInputChange}
+            variant="outlined" 
           />
           <DialogActions>
+           <Button  
+           sx={{
+            color: palette.grey[500],
+            backgroundColor: palette.tertiary[500],
+          }}>Submit</Button>
             <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={handleSubmit}>Submit</Button>
           </DialogActions>
         </DialogContent>
       </Dialog>
