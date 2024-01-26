@@ -52,9 +52,9 @@ mongoose
 
     // Commented out the seeding logic for safety, consider moving to a separate script
     //await mongoose.connection.db.dropDatabase();
-      KPI.insertMany(kpis);
-      Product.insertMany(products);
-      Transaction.insertMany(transactions);
+    //  KPI.insertMany(kpis);
+    //  Product.insertMany(products);
+    //  Transaction.insertMany(transactions);
   })
   .catch((error) => console.log(`${error} did not connect`));
 
