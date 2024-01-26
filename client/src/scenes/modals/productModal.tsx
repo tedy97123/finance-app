@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
  
  
 interface ModernModalProps {
@@ -29,6 +30,7 @@ const currencies = [
 
 //TODO add product flow to frontend
 const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
+    const products = useSelector((state: any) => state.rootReducer.products);
    const { palette } = useTheme();
     return (
       <Dialog open={open} onClose={onClose}>

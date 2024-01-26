@@ -23,9 +23,10 @@ const Row3 = ( ) => {
   const { data: kpiData } = useGetKpisQuery();
   const { data: productData } = useGetProductsQuery();
   const { data: transactionData } = useGetTransactionsQuery();
-  const [selected, setSelected] = useState("editProduct");
-  const [pid,setPID]=useState();
+  const [selected, setSelected] = useState(false);
   const [FinalClickInfo,setFinalClickInfo] = useState();
+  const dispatch = useDispatch();
+  const [clickedRows, setClickedRows] = useState<any[]>([]);
 
   const pieChartData = useMemo(() => {
     if (kpiData) {
@@ -92,33 +93,13 @@ const Row3 = ( ) => {
         (params.value as Array<string>).length,
     },
   ];
-
-  interface Products {
-    cellMode: string;
-    colDef: Object;
-    field: string;
-    formattedValue: string;
-    hasFocus: boolean
-    isEditable: boolean
-    row: Object;
-    rowNode: Object;
-    tabIndex: bigint;
-    value: string;
-    __v: 0,
-    _id:string,
-    createdAt:string, 
-    expense: "", 
-    id: string,
-    price: "",
-    transactions: [], 
-    updatedAt: "",
-    prevSelectionModel:Products[];
-  };
-const dispatch = useDispatch();
-  const [clickedRows, setClickedRows] = useState<any[]>([]);
+ 
+  
 const handleOnCellClick: GridEventListener<'rowClick'> = (
   params, // GridCallbackDetails
 ) => { 
+  setSelected(true);
+  console.log(selected)
   setFinalClickInfo(params.row); 
   const info = JSON.stringify(params.row);
   const n_Info = JSON.parse(info);

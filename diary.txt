@@ -1,0 +1,19 @@
+1/21 -
+   left off on Row3 on the list of Products section, I was working on adding a button 
+   at the end of each row to show the transactions associated with the product in a modal.
+   I was able to print out the productData obj, but left off on trying to extract the id
+   I was only able to console.log(productData) but not when I clicked the associated row
+   I should look at the Datagrid compoent in the middle of the return statement...
+
+   Plan of action for 1/22
+   Looked at some documentation and found this site; https://mui.com/x/api/data-grid/data-grid/.
+   I was able to find component and the props that belong to the compoent. Do research on
+   isCellEditable={} and isRowSelectable ={}
+
+   1/22  
+   was able to implement gloab statemanaggment with redux and update my store with the product object how i can access that state anywhere 
+   like to view or edit modal.
+
+   Plan of action for 1/23 
+   Send productSlice to View/Edit Modal for either viewing or editing transactions picked!
+   

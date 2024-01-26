@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import FlexBetween from "./FlexBetween";
 import { PlusOne } from "@mui/icons-material";
 import ModernModal from "@/scenes/modals/productModal";
-import TransactionsModal from "@/scenes/modals/editProductModal";
+import TransactionsModal from "@/scenes/modals/viewProductsModal";
 
 type Props = {
   title: string;
