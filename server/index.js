@@ -42,18 +42,27 @@ app.use("/description", descriptionRoutes);
 /* MONGOOSE SETUP */ 
 const MONGO_URL = "mongodb+srv://tedyyohanes97:Peeman200@cluster1.vs1vunz.mongodb.net/?retryWrites=true&w=majority";
 
-app.get('/geturl', function (req, res) {     
-  const protocol = req.protocol; 
-  const host = req.hostname; 
-  const url = req.originalUrl; 
-  const port = process.env.PORT || PORT; 
-
-  const fullUrl = `${protocol}://${host}:${port}${url}` 
-    
-  const responseString = `Full URL is: ${fullUrl}`;    
-  console.log(responseString)                    
-  res.send(responseString);   
+app.post('/dropDatabase', async function (req, res) {   
+  await mongoose.connection.db.dropDatabase();
+  res.send("deleted!")
 })
+
+app.post('/insert_kpis', async function (req, res) {   
+    KPI.insertMany(kpis);
+    res.send("kpis inserted!") 
+})
+
+app.post('/insert_products', async function (req, res) {   
+   Product.insertMany(products);
+   res.send("products inserted!") 
+})
+ 
+
+app.post('/insert_transactions', async function (req, res) {   
+    Transaction.insertMany(transactions); 
+    res.send("transactions inserted!") 
+
+}) 
 
 mongoose
   .connect(MONGO_URL, {
@@ -62,13 +71,7 @@ mongoose
   })
   .then(async () => {
     console.log("connected to DB");
-    app.listen(PORT, '0.0.0.0' , () => console.log(`Server Port: ${PORT}`));
-
-    // Commented out the seeding logic for safety, consider moving to a separate script
-    //await mongoose.connection.db.dropDatabase();
-    //  KPI.insertMany(kpis);
-    //  Product.insertMany(products);
-    //  Transaction.insertMany(transactions);
+    app.listen(PORT, '0.0.0.0' , () => console.log(`Server Port: ${PORT}`));   
   })
   .catch((error) => console.log(`${error} did not connect`));
 

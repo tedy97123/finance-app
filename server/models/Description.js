@@ -10,8 +10,7 @@ const DescriptionSchema = new Schema(
     category:String,
     image: [
       {
-         data: Buffer,
-         contentType: String,
+         data:Buffer,type:Schema.Types.String
       },
     ],
     productId:{type:Schema.Types.ObjectId,ref:'Product'}

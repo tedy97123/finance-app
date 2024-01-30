@@ -1,18 +1,23 @@
 import express from "express";
-import mongoose from "mongoose";
-import Description from "../models/Description.js";
+import Description from "../models/description.js";
 import Product from "../models/Product.js";
+import { faker } from '@faker-js/faker';
 
 const router = express.Router();
+const productDescription = faker.commerce.productDescription();
+const productName = faker.commerce.productName()
+const productCategory = faker.commerce.department()
+const image = faker.image.url()
 
 // Function to generate random descriptions
 const generateRandomDescriptions = () => {
   const descriptions = [];
   for (let i = 0; i < 10; i++) { // Adjust the number based on how many descriptions you want to generate
     descriptions.push({
-      productName: `Product ${i + 1}`,
-      productDescription: `Description for Product ${i + 1}`,
-      category: `Category ${i % 3}`,
+      productName: `${productName}`,
+      productDescription: `${productDescription}`,
+      category: `${productCategory}`,
+      image: `${image}`
     });
   }
   return descriptions;
