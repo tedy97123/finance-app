@@ -1,5 +1,5 @@
 import express from "express";
-import Description from "../models/description.js";
+import Description from "../models/Description.js";
 import Product from "../models/Product.js";
 import { faker } from '@faker-js/faker';
 
