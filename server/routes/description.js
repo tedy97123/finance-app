@@ -35,8 +35,20 @@ router.post("/populate-descriptions", async (req, res) => {
 
     // Generate and insert random descriptions
     const randomDescriptions = generateRandomDescriptions();
-    await Description.insertMany(randomDescriptions);
+    await Description.insertMany(randomDescriptions); 
+  
+    // Update Product documents with random descriptions
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const randomDesc = randomDescriptions[i];
 
+      // Assuming 'Description' is a field in the 'Product' model
+      product.Description.push(randomDesc) 
+
+      // Save the updated product document
+      await product.save();
+    }
+    
     res.status(200).json({ message: "Descriptions populated successfully" });
   } catch (error) {
     console.error("Error populating descriptions:", error.message);

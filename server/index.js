@@ -12,12 +12,12 @@ import KPI from "./models/KPI.js";
 import Product from "./models/Product.js";
 import Transaction from "./models/Transaction.js";
 import { kpis, products, transactions } from "./data/data.js";
+import { Db } from "mongodb";
 
 
 /* CONFIGURATIONS */
 dotenv.config();
 const app = express();
-
 // Use Helmet for general security headers
 app.use(helmet());
 // Specifically, remove the crossOriginResourcePolicy from Helmet for now as it might conflict with CORS
@@ -61,9 +61,9 @@ app.post('/insert_products', async function (req, res) {
 
 app.post('/insert_transactions', async function (req, res) {   
     Transaction.insertMany(transactions); 
-    res.send("transactions inserted!") 
-
+    res.send("transactions inserted!")  
 }) 
+
 
 mongoose
   .connect(MONGO_URL, {

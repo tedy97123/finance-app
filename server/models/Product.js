@@ -12,7 +12,7 @@ class Currency extends mongoose.SchemaType {
   // Casting logic
   cast(val) {
     if (typeof val === 'number') {
-      return val;  // store in cents
+      return val;  // already in cents
     }
     if (typeof val === 'string') {
       // Convert USD string to number in cents
@@ -41,12 +41,12 @@ const ProductSchema = new Schema(
         ref: "Transaction",
       },
     ],
-        Description:{
-          type:Schema.Types.ObjectId,
-          ref:'Description'
-        }
+    Description: {
+      type: mongoose.Schema.Types.Array,
+      ref: "Description",
+    },
   },
-  { timestamps: true, toJSON: { getters: true } }
+  { timestamps: true }  // Removed { toJSON: { getters: true } }
 );
 
 const Product = mongoose.model("Product", ProductSchema);
