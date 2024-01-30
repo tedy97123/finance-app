@@ -13,10 +13,10 @@ import Product from "./models/Product.js";
 import Transaction from "./models/Transaction.js";
 import { kpis, products, transactions } from "./data/data.js";
 
+
 /* CONFIGURATIONS */
 dotenv.config();
 const app = express();
-const PORT = 8023;
 
 // Use Helmet for general security headers
 app.use(helmet());
@@ -39,7 +39,8 @@ app.use("/product", productRoutes);
 app.use("/transaction", transactionRoutes);
 app.use("/description", descriptionRoutes);
 
-/* MONGOOSE SETUP */ 
+/* MONGOOSE SETUP */
+const PORT = process.env.PORT || 8000;
 const MONGO_URL = "mongodb+srv://tedyyohanes97:Peeman200@cluster1.vs1vunz.mongodb.net/?retryWrites=true&w=majority";
 
 app.post('/dropDatabase', async function (req, res) {   
