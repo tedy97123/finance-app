@@ -29,6 +29,7 @@ router.post("/populate-descriptions", async (req, res) => {
 
     // Ensure that referenced Product documents exist
     const products = await Product.find();
+   
     if (products.length === 0) {
       throw new Error("No products found. Populate products before running this script.");
     }
@@ -36,11 +37,11 @@ router.post("/populate-descriptions", async (req, res) => {
     // Generate and insert random descriptions
     const randomDescriptions = generateRandomDescriptions();
     await Description.insertMany(randomDescriptions); 
-  
+    const description = await Description.find()
     // Update Product documents with random descriptions
     for (let i = 0; i < products.length; i++) {
       const product = products[i];
-      const randomDesc = randomDescriptions[i];
+      const randomDesc = description[i];
 
       // Assuming 'Description' is a field in the 'Product' model
       product.Description.push(randomDesc) 

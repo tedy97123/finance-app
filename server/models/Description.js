@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import currency from "currency.js";
 
 const Schema = mongoose.Schema;
 
