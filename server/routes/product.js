@@ -1,6 +1,7 @@
 import express from "express";
 import Product from "../models/Product.js";
-
+import { faker } from '@faker-js/faker';
+import Description from "../models/description.js";
 const router = express.Router();
 
 router.get("/products", async (req, res) => {
@@ -11,8 +12,7 @@ router.get("/products", async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 });
-
-
+ 
 
  router.post(`/productsDescriptions`, async (req, res) => {
   const [{ id }] = [req.body];

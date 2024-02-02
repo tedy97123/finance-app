@@ -11,8 +11,7 @@ const DescriptionSchema = new Schema(
       {
          data:Buffer,type:Schema.Types.String
       },
-    ],
-    productId:{type:Schema.Types.ObjectId,ref:'Product'}
+    ], 
   },
   { timestamps: true, toJSON: { getters: true } }
 );

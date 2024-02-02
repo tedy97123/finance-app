@@ -40,11 +40,7 @@ const ProductSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Transaction",
       },
-    ],
-    Description: {
-      type: mongoose.Schema.Types.Array,
-      ref: "Description",
-    },
+    ], 
   },
   { timestamps: true }  // Removed { toJSON: { getters: true } }
 );
