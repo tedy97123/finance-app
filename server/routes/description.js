@@ -1,5 +1,5 @@
 import express from "express"; 
-import Description from "../models/description.js";
+import Description from "../models/Description.js";
 import { faker } from "@faker-js/faker";
 const router = express.Router();
 
