@@ -1,10 +1,9 @@
-import express from "express"; 
-import Description from "../models/description.js";
-import { faker } from "@faker-js/faker";
+import express from "express";
+import Description from "../models/Description.js";
+import Product from "../models/Product.js";
+import { faker } from '@faker-js/faker';
+
 const router = express.Router();
-
-
-// faker variables to generate data
 const productDescription = faker.commerce.productDescription();
 const productName = faker.commerce.productName()
 const productCategory = faker.commerce.department()
@@ -26,25 +25,31 @@ const generateRandomDescriptions = () => {
 
 router.post("/populate-descriptions", async (req, res) => {
   try {
-    // TODO Add authentication and authorization checks here, e.g., check if the user is an admin
-      
+    // Add authentication and authorization checks here, e.g., check if the user is an admin
+
     // Ensure that referenced Product documents exist
-    const description = await Description.find();
-    if (description.length === 0) {
+    const products = await Product.find();
+   
+    if (products.length === 0) {
       throw new Error("No products found. Populate products before running this script.");
     }
+
     // Generate and insert random descriptions
     const randomDescriptions = generateRandomDescriptions();
     await Description.insertMany(randomDescriptions); 
+    const description = await Description.find()
     // Update Product documents with random descriptions
-    // for (let i = 0; i < products.length; i++) {
-    //   const product = products[i];
-    //   const randomDesc = randomDescriptions[i];
-    //   const pushDescriptions2Products = product.Description.push(randomDesc) 
-    //   pushDescriptions2Products;
-    //   // Save the updated product document
-    //   await product.save();
-    //}
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
+      const randomDesc = description[i];
+
+      // Assuming 'Description' is a field in the 'Product' model
+      product.descriptionId.push(randomDesc) 
+
+      // Save the updated product document
+      await product.save();
+    }
+    
     res.status(200).json({ message: "Descriptions populated successfully" });
   } catch (error) {
     console.error("Error populating descriptions:", error.message);
