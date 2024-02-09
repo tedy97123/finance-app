@@ -4,11 +4,14 @@ import {
   GetProductsResponse,
   GetTransactionsResponse,
 } from "./types";
+const localURL = "http://localhost:8000/";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const herokuURL = "https://desolate-wave-21722-b91d139fdee7.herokuapp.com/";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "https://desolate-wave-21722-b91d139fdee7.herokuapp.com/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: herokuURL  }),
   reducerPath: "main",
-  tagTypes: ["Kpis", "Products", "Transactions"],
+  tagTypes: ["Kpis", "Products", "Transactions","Descriptions"],
   endpoints: (build) => ({
     getKpis: build.query<Array<GetKpisResponse>, void>({
       query: () => "kpi/kpis/",
@@ -21,9 +24,8 @@ export const api = createApi({
     getTransactions: build.query<Array<GetTransactionsResponse>, void>({
       query: () => "transaction/transactions/",
       providesTags: ["Transactions"],
-    }),
+    }), 
   }),
 });
 
-export const { useGetKpisQuery, useGetProductsQuery, useGetTransactionsQuery } =
-  api;
+export const { useGetKpisQuery, useGetProductsQuery, useGetTransactionsQuery  } = api

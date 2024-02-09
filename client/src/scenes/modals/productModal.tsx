@@ -30,7 +30,6 @@ const currencies = [
 
 //TODO add product flow to frontend
 const ModernModal: React.FC<ModernModalProps> = ({ open, onClose }) => {
-    const products = useSelector((state: any) => state.rootReducer.products);
    const { palette } = useTheme();
     return (
       <Dialog open={open} onClose={onClose}>

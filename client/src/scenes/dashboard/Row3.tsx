@@ -9,7 +9,7 @@ import {
 import { Add } from "@mui/icons-material";
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridCellParams, GridEventListener } from "@mui/x-data-grid";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Cell, Pie, PieChart } from "recharts";
 import { connect, useDispatch } from "react-redux";
 import { editProduct } from "@/state/redux/actions";
@@ -99,17 +99,32 @@ const handleOnCellClick: GridEventListener<'rowClick'> = (
   params, // GridCallbackDetails
 ) => { 
   setSelected(true);
-  console.log(selected)
   setFinalClickInfo(params.row); 
   const info = JSON.stringify(params.row);
   const n_Info = JSON.parse(info);
-  setClickedRows((prevRows) => [...prevRows, n_Info]);
+   const isDuplicate = clickedRows.some(row => row._id === n_Info._id); // Assuming there's an ID property to check uniqueness
+    console.log(isDuplicate)
+  // If not a duplicate, update clickedRows state
+ setClickedRows(prevRows => {
+  // Check if the row already exists in clickedRows to avoid duplicates
+  const isDuplicate = prevRows.some(row => row._id === n_Info._id); // Assuming there's an ID property to check uniqueness
+  if (!isDuplicate) {
+    // If it's not a duplicate, concatenate the new row with the existing rows
+    return [...prevRows, n_Info];
+  } else {
+    // If it's a duplicate, return the existing state without modification
+    return prevRows;
+  }
+})};
+
+ useEffect(() => {
+    // Dispatch action with clickedRows as payload whenever clickedRows changes
     const action = {
-    type: 'VIEW_PRODUCT',
-    payload:clickedRows, 
-  };
-  dispatch(action);
-};
+      type: 'VIEW_PRODUCT',
+      payload: clickedRows,
+    };
+    dispatch(action);
+  }, [clickedRows, dispatch]); // Dispatch the action whenever clickedRows changes
 
   return (
     <>
@@ -147,6 +162,7 @@ const handleOnCellClick: GridEventListener<'rowClick'> = (
             hideFooter={true}
             rows={productData || []}
             columns={productColumns}
+            getRowId={(row)=>row._id} 
             onCellClick={handleOnCellClick}
             checkboxSelection 
             disableColumnSelector
@@ -183,6 +199,7 @@ const handleOnCellClick: GridEventListener<'rowClick'> = (
             rowHeight={35}
             hideFooter={true}
             rows={transactionData || []}
+            getRowId={(row)=>row._id}
             columns={transactionColumns}
             onCellClick={handleOnCellClick}
             checkboxSelection 

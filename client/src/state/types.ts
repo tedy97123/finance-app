@@ -51,6 +51,7 @@ createdAt:string,
 expense: "", 
 id: string,
 price: "",
+descriptionId: [];
 transactions: [], 
 updatedAt: ""
 }
@@ -77,6 +78,7 @@ export interface GetProductsResponse {
   price: number;
   expense: number;
   transactions: Array<string>;
+  descriptionId: Array<string>; 
   createdAt: string;
   updatedAt: string;
 }
