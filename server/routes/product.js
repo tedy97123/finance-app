@@ -67,9 +67,12 @@ router.get("/products", async (req, res) => {
   try { 
       id.forEach(async singleId => { 
          pid.push(singleId) 
+        
     }); 
+    console.log(pid)
     for(let i=0; i < pid.length;i++){
      const description = await Description.findById(pid)
+     console.log(description)
      returnValues.push(description);
     };
     res.status(200).json(returnValues);
