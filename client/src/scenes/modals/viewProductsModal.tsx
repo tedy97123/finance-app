@@ -14,6 +14,8 @@ import UpdateIcon from '@mui/icons-material/Update';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { Products } from '@/state/types';
+import axios from 'axios';
+import CardDescriptions from '@/components/Card';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -43,56 +45,12 @@ interface ModernTransactionsModal {
 const TransactionsModal: React.FC<ModernTransactionsModal> = ({ open, onClose  }) => {
   // Assuming 'products' is the key used in the rootReducer for the productReducer
   const [opend, setOpend] = React.useState(false);
+ 
   const handleOpen = () => setOpend(true);
   const handleClose = () => setOpend(false); 
   const {products} = useSelector((state: any) => state.rootReducer.products);
- function extractDescriptionIds(products: any) {
-    const descriptionIds: any[] = [];
-    try {
-        products.forEach((singleId: any) => {
-            descriptionIds.push(...singleId.descriptionId);
-        });
-    } catch (error: any) {
-        console.error('Error extracting description IDs:', error.message);
-        // Handle error as needed
-    }
-    return descriptionIds;
-} 
-const descriptionIds = extractDescriptionIds(products);
-console.log(descriptionIds); // Output: ['65bf32800c9a3f1b44373caf', '65bf32800c9a3f1b44373cb0']
-
-// Transform the descriptionIds array into an object
-const descriptionIdsObject = { id: descriptionIds };
-console.log(descriptionIdsObject); // 
-  extractDescriptionIds(products);
-  console.log(descriptionIds)
-
-  async function sendIdsToEndpoint(descriptionIds: any) {
-    try {
-        const response = await fetch('http://localhost:8000/product/productsDescriptions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-                // Add any additional headers as needed
-            },
-            body: JSON.stringify({ descriptionIds }) // Assuming ids is an array of IDs
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to send IDs to endpoint');
-        }
-
-        // If you expect a response from the endpoint, you can parse it here
-        const responseData = await response.json();
-        console.log('Response from endpoint:', responseData);
-        
-        return responseData; // Return the response if needed
-    } catch (error:any) {
-        console.error('Error sending IDs to endpoint:', error.message);
-        // Handle error as needed
-    }
-}
- sendIdsToEndpoint(descriptionIds)
+ 
+ 
    return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -107,29 +65,34 @@ console.log(descriptionIdsObject); //
         },
       }}
     >
-      <Fade in={open}>
-        <Box sx={style}> 
-            <TabNavigator value={opend}/>
-            {products && products.map((d: any, index: any) => {
-              return(
-              <Box key={index}> 
-                  <BoxHeader
-                    title="Product"
-                    subtitle={"ID: " + d?._id}
-                     sideText={''}                  /> 
-                  <Stack  sx={boxContainer} direction="row" spacing={4}>
-                    <Chip color="primary" label={d?.expense} icon={<AccountBalanceWalletIcon/>}  size="medium" /> 
-                    <Chip label={d?.createdAt}  icon={<StarRateIcon/>}  size="medium" />
-                    <Chip label= {d?.updatedAt} icon={<UpdateIcon/>}  size="medium" />
-                 </Stack>  
-                <Divider light sx={line}/>
-              </Box>
-              )
-            })} 
-          <Button onClick={onClose}>Cancel</Button>
-        </Box>
-      </Fade>
-    </Modal>
+  <Fade in={open}>
+    <Box sx={style}> 
+        <TabNavigator value={opend}/>
+        {/* Mapping products */}
+        {products && products.map((product: any, index: any) => {
+          return(
+            <Box key={index}> 
+              <BoxHeader
+                title="Product"
+                subtitle={"ID: " + product?._id}
+                sideText={''}                  
+              /> 
+              <CardDescriptions/>
+              <Stack  sx={boxContainer} direction="row" spacing={4}>
+                <Chip color="primary" label={product?.expense} icon={<AccountBalanceWalletIcon/>}  size="medium" /> 
+                <Chip label={product?.createdAt}  icon={<StarRateIcon/>}  size="medium" />
+                <Chip label= {product?.updatedAt} icon={<UpdateIcon/>}  size="medium" />
+             </Stack>  
+            <Divider light sx={line}/>
+          </Box>
+          )
+        })} 
+        {/* Mapping descriptions */}
+         
+      <Button onClick={onClose}>Cancel</Button>
+    </Box>
+  </Fade>
+</Modal>
   );
 };
 
