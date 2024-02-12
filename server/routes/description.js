@@ -42,14 +42,10 @@ router.post("/populate-descriptions", async (req, res) => {
     for (let i = 0; i < products.length; i++) {
       const product = products[i];
       const randomDesc = description[i];
-
-      // Assuming 'Description' is a field in the 'Product' model
-      product.descriptionId.push(randomDesc) 
-
+       product.descriptionId.push(randomDesc)   
       // Save the updated product document
       await product.save();
-    }
-    
+    } 
     res.status(200).json({ message: "Descriptions populated successfully" });
   } catch (error) {
     console.error("Error populating descriptions:", error.message);

@@ -47,7 +47,6 @@ const ProductSchema = new Schema(
         ref: "Description",
       },
     ], 
-    
   },
   { timestamps: true }  // Removed { toJSON: { getters: true } }
 );
