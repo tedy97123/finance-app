@@ -6,7 +6,7 @@ import {
 } from "./types";
 const localURL = "http://localhost:8000/";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const herokuURL = "https://desolate-wave-21722-b91d139fdee7.herokuapp.com/";
+const herokuURL = "https://finaical-08cf91646aec.herokuapp.com/";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: herokuURL  }),
